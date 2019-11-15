@@ -1,65 +1,57 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState } from "react";
 
+export default function Login({ isLoggedIn, loginMsg, setLoginStatus, login }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const onChange = evt => {
+    // console.log(evt);
+  };
 
-export class Login extends React.Component {
+  const loginSubmit = () => {
+    console.log(isLoggedIn, username, password);
+    login(username, password);
+    // setLoginStatus(!isLoggedIn);
+  };
 
-  constructor() {
-    super();
-    this.state = {
-      redirectToReferrer: false,
-      username: "",
-      password: "" 
-    };
-    this.login = this.login.bind(this);
-  }
+  const logout = evt => {
+    console.log(isLoggedIn, evt);
+    // setLoginStatus(!isLoggedIn);
+  };
 
-  login() {
-    console.log(1, this.state);
-    fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true })
-      console.log(2, this.state);
-    })
-  }
-
-  onChange = (evt) => {
-    this.setState({[evt.target.id]: evt.target.value})
-  }
-
-  render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer) {
-      return (
-        <Redirect to={from} />
-      )
-    }
-
-    return (
-      <div>
-        <p>You must log in to view the page at {from.pathname}</p>
-        <h2>Login</h2>
-        <form onChange={this.onChange} >
-          <input placeholder="User Name" id="username" />
-          <input placeholder="Password" id="password" />
-          {/* <button type="submit">Log in</button> */}
-        </form>
-        <button onClick={this.login}>Log in</button>
-        <p>{ JSON.stringify(this.state)}</p>
-      </div>
-    )
-  }
-
-
+  return (
+    <div>
+      {!isLoggedIn && (
+        <>
+          <h2>Login</h2>
+          <form id="f" onChange={onChange} onSubmit={loginSubmit}>
+            <input
+              placeholder="User Name"
+              id="username"
+              onChange={event => setUsername(event.target.value)}
+            />
+            <input
+              placeholder="Password"
+              id="password"
+              onChange={event => setPassword(event.target.value)}
+            />
+            <div className="form-group">
+              <div className="col-sm-offset-3 col-sm-9">
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </>
+      )}
+      {isLoggedIn && (
+        <>
+          <h2>Do you really want to logout?</h2>
+          <button onClick={logout} className="btn btn-primary">
+            Logout
+          </button>
+        </>
+      )}
+    </div>
+  );
 }
-
-/* A fake authentication function */
-
-export const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100);
-  }
-};
