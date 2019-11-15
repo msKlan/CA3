@@ -10,7 +10,7 @@ Nikolaj Tost Søgaard
 
 
 
-## how-to:
+## how-to-run:
 - clone project
 
 - open with visual code
