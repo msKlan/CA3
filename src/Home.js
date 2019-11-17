@@ -5,6 +5,7 @@ function Home() {
   return (
     <div>
       <h2>Home</h2>
+      <p>Discribe how to use the front-end.</p>
     </div>
   );
 }

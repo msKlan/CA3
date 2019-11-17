@@ -3,8 +3,9 @@ import { NavLink } from "react-router-dom";
 
 import "./App.css";
 
-function Nav({ isLoggedIn, loginMsg }) {
-  // console.log("LOGIN", loginMsg);
+function Nav(props) {
+  const { isLoggedIn, loginMsg, username } = props;
+
   return (
     <div>
       <ul className="header">
@@ -13,13 +14,13 @@ function Nav({ isLoggedIn, loginMsg }) {
             Home
           </NavLink>
         </li>
-        <li>
-          <NavLink activeClassName="active" to="/products">
-            Products
-          </NavLink>
-        </li>
         {isLoggedIn && (
           <>
+            <li>
+              <NavLink activeClassName="active" to="/products">
+                Products
+              </NavLink>
+            </li>
             <li>
               <NavLink activeClassName="active" to="/add-item">
                 Add item
@@ -34,7 +35,7 @@ function Nav({ isLoggedIn, loginMsg }) {
         )}
         <li>
           <NavLink activeClassName="active" to="/login-out">
-            {loginMsg}
+            {loginMsg} <small>{username && `(${username})`}</small>
           </NavLink>
         </li>
       </ul>
